@@ -26,11 +26,11 @@ const App = () =>{
   <ThemeProvider theme={theme}>
 	<Styled.GlobalStyles/>
 		<QueryClientProvider client={queryClient}>
-			<PermanentDrawerLeft>
-				<BrowserRouter>
-					<MainRouter/>
-				</BrowserRouter>
-			</PermanentDrawerLeft>
+			<BrowserRouter>
+				<PermanentDrawerLeft>
+						<MainRouter/>
+				</PermanentDrawerLeft>
+			</BrowserRouter>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
   </ThemeProvider>

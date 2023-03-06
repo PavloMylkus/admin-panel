@@ -45,6 +45,11 @@ export const GlobalStyles = createGlobalStyle`
   a:not([class]) {
     text-decoration-skip-ink: auto;
   }
+  a{
+	text-decoration: none;
+	color: inherit;
+	display: block;
+  }
   img {
     max-width: 100%;
     display: block;

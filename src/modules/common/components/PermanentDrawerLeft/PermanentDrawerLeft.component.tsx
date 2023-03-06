@@ -20,6 +20,9 @@ import { AppBar,Drawer,DrawerHeader } from './permanentDrawerLeft.styled';
 import { IChildren } from '../../types/common.types';
 import { MARGIN_HOME } from '../../../theme/mui.const';
 import { MENU_ITEMS_MAIN, MENU_ITEMS_SECOND } from '../../const/items.const';
+import { Link, NavLink } from 'react-router-dom';
+import { COLORS } from '../../../theme';
+import { KEYS } from '../../const/app-keys.const';
 
 export const PermanentDrawerLeft:React.FC<IChildren> = ({children}) => {
   const theme = useTheme();
@@ -33,6 +36,10 @@ export const PermanentDrawerLeft:React.FC<IChildren> = ({children}) => {
     setOpen(false);
   };
 
+  let activeStyle = {
+    color: COLORS.primary,
+	borderLeft: `4px solid ${COLORS.primary}`
+  }
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -50,9 +57,11 @@ export const PermanentDrawerLeft:React.FC<IChildren> = ({children}) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Admin Panel
-          </Typography>
+		  <Link to={KEYS.HOME}>
+			<Typography variant="h6" noWrap component="div">
+				Admin Panel
+			</Typography>
+		  </Link>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -65,24 +74,32 @@ export const PermanentDrawerLeft:React.FC<IChildren> = ({children}) => {
         <List>
           {MENU_ITEMS_MAIN.map((el, index) => (
             <ListItem key={el.text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {el.icon}
-                </ListItemIcon>
-                <ListItemText primary={el.text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+				<NavLink  
+					style={
+						({ isActive }) =>
+						isActive ? activeStyle : undefined
+					} 
+					to={el.path}
+				>
+					<ListItemButton
+						sx={{
+							minHeight: 48,
+							justifyContent: open ? 'initial' : 'center',
+							px: 2.5,
+						}}
+					>
+						<ListItemIcon
+							sx={{
+								minWidth: 0,
+								mr: open ? 3 : 'auto',
+								justifyContent: 'center',
+							}}
+						>
+							{el.icon}
+						</ListItemIcon>
+						<ListItemText primary={el.text} sx={{ opacity: open ? 1 : 0 }} />
+					</ListItemButton>
+				</NavLink>
             </ListItem>
           ))}
         </List>
@@ -90,24 +107,32 @@ export const PermanentDrawerLeft:React.FC<IChildren> = ({children}) => {
         <List>
           {MENU_ITEMS_SECOND.map((el, index) => (
             <ListItem key={el.text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {el.icon}
-                </ListItemIcon>
-                <ListItemText primary={el.text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+				<NavLink  
+					style={
+						({ isActive }) =>
+						isActive ? activeStyle : undefined
+					} 
+					to={el.path}
+				>
+					<ListItemButton
+						sx={{
+						minHeight: 48,
+						justifyContent: open ? 'initial' : 'center',
+						px: 2.5,
+						}}
+					>
+						<ListItemIcon
+						sx={{
+							minWidth: 0,
+							mr: open ? 3 : 'auto',
+							justifyContent: 'center',
+						}}
+						>
+						{el.icon}
+						</ListItemIcon>
+						<ListItemText primary={el.text} sx={{ opacity: open ? 1 : 0 }} />
+					</ListItemButton>
+			  	</NavLink>
             </ListItem>
           ))}
         </List>
