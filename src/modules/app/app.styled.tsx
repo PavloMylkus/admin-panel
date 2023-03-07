@@ -31,12 +31,12 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
   }
   body {
-    font-family: Poppins, sans-serif;
+    /* font-family: Poppins, sans-serif !important; */
     min-height: 100vh;
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
-    background-color: ${COLORS.white};
+	background-color: ${COLORS.background};
   }
   ul[class],
   ol[class] {
@@ -62,8 +62,5 @@ export const GlobalStyles = createGlobalStyle`
   textarea,
   select {
     font: inherit;
-  }
-  body{
-	background-color: ${COLORS.background};
   }
   `;
