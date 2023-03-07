@@ -50,6 +50,8 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@mui/x-data-grid": "^6.0.0",
+    "@types/styled-components": "^5.1.26",
+    "typings": "^2.1.1"
   }
 }

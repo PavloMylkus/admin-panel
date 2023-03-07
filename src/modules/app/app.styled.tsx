@@ -63,4 +63,7 @@ export const GlobalStyles = createGlobalStyle`
   select {
     font: inherit;
   }
+  body{
+	background-color: ${COLORS.background};
+  }
   `;
