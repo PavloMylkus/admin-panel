@@ -6,12 +6,13 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
-import { EnhancedTableProps, HeadCell, Order, PostData } from '../../common/types/common.types';
+import { EnhancedTableProps, HeadCell } from '../../common/types/common.types';
+import { IPosts } from '../../common/types/posts.types';
 
 
 const headCells: readonly HeadCell[] = [
 	{
-	  id: 'id',
+	  id: '_id',
 	  numeric: true,
 	  disablePadding: false,
 	  label: 'ID',
@@ -29,7 +30,7 @@ const headCells: readonly HeadCell[] = [
 	  label: 'Description',
 	},
 	{
-	  id: 'image',
+	  id: 'imageUrl',
 	  numeric: false,
 	  disablePadding: false,
 	  label: 'Image',
@@ -42,7 +43,7 @@ export const EnhancedTableHead = (props: EnhancedTableProps)=> {
 	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
 	  props;
 	const createSortHandler =
-	  (property: keyof PostData) => (event: React.MouseEvent<unknown>) => {
+	  (property: keyof IPosts) => (event: React.MouseEvent<unknown>) => {
 		onRequestSort(event, property);
 	  };
   
