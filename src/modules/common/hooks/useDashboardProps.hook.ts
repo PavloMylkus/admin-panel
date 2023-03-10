@@ -2,12 +2,15 @@ import * as React from 'react'
 import { Order } from '../types/common.types';
 import { IPosts } from '../types/posts.types';
 
+
 export const useDashboardProps=(rows:IPosts[] | undefined)=>{
 	const [order, setOrder] = React.useState<Order>('asc');
-	const [orderBy, setOrderBy] = React.useState<keyof IPosts>('title');
+	const [orderBy, setOrderBy] = React.useState<keyof IPosts>('_id');
 	const [selected, setSelected] = React.useState<any>([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+
 
 	const handleRequestSort = (
 		event: React.MouseEvent<unknown>,
@@ -20,7 +23,7 @@ export const useDashboardProps=(rows:IPosts[] | undefined)=>{
 	
 	  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-		  const newSelected = rows?.map((n) => n.title);
+		  const newSelected = rows?.map((n) => n._id);
 		  setSelected(newSelected);
 		  return;
 		}

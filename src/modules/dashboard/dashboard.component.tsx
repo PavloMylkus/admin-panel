@@ -8,25 +8,20 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import { Order } from '../common/types/common.types';
 import stableSort from './utils/stableSort';
 import { EnhancedTableToolbar } from './enhancedTableToolbar/enhancedTableToolbar.component';
 import { EnhancedTableHead } from './enhancedTableHead/enhancedTableHead.component';
 import getComparator from './utils/getComparator';
-import { IPosts } from '../common/types/posts.types';
 import { usePostData } from '../common/hooks/usePostsData.hook';
 import { useDashboardProps } from '../common/hooks/useDashboardProps.hook';
-
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useDeletePost } from '../common/hooks/useDeletePost.hook';
 
 
 export const Dashboard = () => {
-//   const [order, setOrder] = React.useState<Order>('asc');
-//   const [orderBy, setOrderBy] = React.useState<keyof IPosts>('title');
-//   const [selected, setSelected] = React.useState<any>([]);
-//   const [page, setPage] = React.useState(0);
-//   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const {rows , isLoading} = usePostData()
+ const {rows , isLoading} = usePostData();
 
   const { 
 	page, 
@@ -39,66 +34,36 @@ export const Dashboard = () => {
 	handleClick, 
 	handleChangePage, 
 	handleChangeRowsPerPage
-} = useDashboardProps(rows)
+} = useDashboardProps(rows);
+
+
+
+const navigate = useNavigate(); 
+
+const handleOpenPost = (event:any, id:string) =>{
+	event.stopPropagation();
+	navigate(`/post/${id}`);
+}
   
-//   const handleRequestSort = (
-//     event: React.MouseEvent<unknown>,
-//     property: keyof IPosts,
-//   ) => {
-//     const isAsc = orderBy === property && order === 'asc';
-//     setOrder(isAsc ? 'desc' : 'asc');
-//     setOrderBy(property);
-//   };
-
-//   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     if (event.target.checked) {
-//       const newSelected = rows?.map((n) => n.title);
-//       setSelected(newSelected);
-//       return;
-//     }
-//     setSelected([]);
-//   };
-
-//   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-//     const selectedIndex = selected.indexOf(name);
-//     let newSelected: readonly string[] = [];
-
-//     if (selectedIndex === -1) {
-//       newSelected = newSelected.concat(selected, name);
-//     } else if (selectedIndex === 0) {
-//       newSelected = newSelected.concat(selected.slice(1));
-//     } else if (selectedIndex === selected.length - 1) {
-//       newSelected = newSelected.concat(selected.slice(0, -1));
-//     } else if (selectedIndex > 0) {
-//       newSelected = newSelected.concat(
-//         selected.slice(0, selectedIndex),
-//         selected.slice(selectedIndex + 1),
-//       );
-//     }
-
-//     setSelected(newSelected);
-//   };
-
-//   const handleChangePage = (event: unknown, newPage: number) => {
-//     setPage(newPage);
-//   };
-
-//   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setRowsPerPage(parseInt(event.target.value, 10));
-//     setPage(0);
-//   };
-
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = rows && page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const dateFormat = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+	hour: '2-digit',
+	minute: '2-digit',
+	timeZone: 'UTC'
+  });
 
   return (
     <Box sx={{ width: '100%' }}>
 	{isLoading && <div>Loading ...</div>}
 	 {rows && 
 	 <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} selectedItems={selected}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -117,40 +82,74 @@ export const Dashboard = () => {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.title);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
+                  const isItemSelected = isSelected(row._id);
+                  const labelId = `enhanced-table-checkbox-${index}`;	
+					const updatedAt = new Date(row.updatedAt);
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.title)}
+                      onClick={(event) => handleClick(event, row._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row._id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row._id}
-                      </TableCell>
-                      <TableCell align="left">{row.title}</TableCell>
-					  <TableCell align="left">{row.text}</TableCell>
-                      <TableCell align="left">{row.imageUrl}</TableCell>
-  
+						<TableCell padding="checkbox">
+							<Checkbox
+							color="primary"
+							checked={isItemSelected}
+							inputProps={{
+							'aria-labelledby': labelId,
+							}}
+							/>
+						</TableCell>
+
+						<TableCell
+							component="th"
+							id={labelId}
+							scope="row"
+							padding="none"
+						>
+							<img style={{width:'50px', marginLeft:'10px'}} src={`${row.imageUrl}`}alt={row.title} />
+						</TableCell>
+
+						<TableCell align="left">
+							{row.title}
+						</TableCell>
+
+						<TableCell align="left">
+							{row.text}
+						</TableCell>
+
+						<TableCell align="left">
+							{row.tags.map(tag=>
+								<p key={tag}>
+									#{tag}
+								</p>)
+								}
+						</TableCell>
+
+						<TableCell 
+							sx={{fontWeight:'600'}} 
+							align="left">
+								₴ {row.price}
+						</TableCell>
+
+						<TableCell 
+							align="left"
+						>
+							<Box sx={{display:'flex', alignItems:'center'}}>
+								<RemoveRedEyeIcon sx={{m:'5px'}} fontSize='small'/> 
+								{row.viewsCount}
+							</Box>
+						</TableCell>
+						<TableCell align="left">
+						{`${dateFormat.format(updatedAt)}`}
+						</TableCell>
+						<TableCell align="left">
+						<Button onClick={(event)=>handleOpenPost(event,row._id)} variant="text">open</Button>
+						</TableCell>
                     </TableRow>
                   );
                 })}

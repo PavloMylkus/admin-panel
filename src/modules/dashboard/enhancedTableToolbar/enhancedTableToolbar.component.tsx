@@ -7,13 +7,18 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { EnhancedTableToolbarProps } from '../../common/types/common.types';
+import { useDeletePost } from '../../common/hooks/useDeletePost.hook';
 
 
 
   
 export const EnhancedTableToolbar=(props: EnhancedTableToolbarProps) =>{
-	const { numSelected } = props;
-  
+	const { numSelected, selectedItems } = props;
+	const {deleteItemsMutation} = useDeletePost();
+
+	const handleDeleteClick = (ids: string[]) => {
+		deleteItemsMutation.mutate(ids);
+	  };
 	return (
 	  <Toolbar
 		sx={{
@@ -46,7 +51,7 @@ export const EnhancedTableToolbar=(props: EnhancedTableToolbarProps) =>{
 		)}
 		{numSelected > 0 ? (
 		  <Tooltip title="Delete">
-			<IconButton>
+			<IconButton onClick={() => handleDeleteClick(selectedItems)}>
 			  <DeleteIcon />
 			</IconButton>
 		  </Tooltip>

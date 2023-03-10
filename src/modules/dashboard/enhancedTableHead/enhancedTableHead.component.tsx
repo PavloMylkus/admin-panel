@@ -12,29 +12,41 @@ import { IPosts } from '../../common/types/posts.types';
 
 const headCells: readonly HeadCell[] = [
 	{
-	  id: '_id',
-	  numeric: true,
-	  disablePadding: false,
-	  label: 'ID',
+	  id: 'imageUrl',
+	  numeric: false,
+	  label: 'Image',
 	},
 	{
 	  id: 'title',
 	  numeric: false,
-	  disablePadding: false,
 	  label: 'Title',
 	},
 	{
 	  id: 'text',
 	  numeric: true,
-	  disablePadding: false,
 	  label: 'Description',
 	},
 	{
-	  id: 'imageUrl',
+	  id: 'tags',
 	  numeric: false,
-	  disablePadding: false,
-	  label: 'Image',
+	  label: 'Tags',
 	},
+	{
+	  id: 'price',
+	  numeric: true,
+	  label: 'Price',
+	},
+	{
+		id: 'viewsCount',
+		numeric: true,
+		label: 'Views',
+	  },
+	{
+	  id: 'updatedAt',
+	  numeric: false,
+	  label: 'Update at',
+	},
+	
   ];
 
 
@@ -65,7 +77,7 @@ export const EnhancedTableHead = (props: EnhancedTableProps)=> {
 			<TableCell
 			  key={headCell.id}
 			  align={'left'}
-			  padding={headCell.disablePadding ? 'none' : 'normal'}
+			  padding={'normal'}
 			  sortDirection={orderBy === headCell.id ? order : false}
 			>
 			  <TableSortLabel

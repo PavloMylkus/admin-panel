@@ -17,10 +17,10 @@ export type Order = 'asc' | 'desc';
 
 export interface EnhancedTableToolbarProps {
 	numSelected: number;
+	selectedItems: string[]
 }
 
 export interface HeadCell {
-	disablePadding: boolean;
 	id: keyof IPosts;
 	label: string;
 	numeric: boolean;

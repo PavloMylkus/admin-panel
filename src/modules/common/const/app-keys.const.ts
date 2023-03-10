@@ -5,14 +5,15 @@ export const KEYS = {
 	DASHBOARD:'dashboard',
 	CREATE:'add-post',
 	USER:'user',
+	POST:'post/:id',
 	SETTINGS:'settings'
 }
 export const QUERY_KEYS = {
 	GET_POSTS:'getPosts',
 }
 
-export const API_URL= 'https://server-for-mern-app-shop-api.onrender.com/'
+export const API_URL= 'https://server-for-mern-app-shop-api.onrender.com'
 
 export const API_KEYS = {
-	GET_ALL:'posts'
+	GET_ALL:'/posts'
 }

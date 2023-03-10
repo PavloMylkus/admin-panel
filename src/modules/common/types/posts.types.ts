@@ -3,7 +3,7 @@ export interface IPosts{
 	title: string;
 	text: string;
 	tags: [string]
-	viewCount: number
+	viewsCount: number
 	user: any;
 	imageUrl: string;
 	price: number;
